@@ -49,7 +49,7 @@ export default function App() {
   };
 
   return (
-    <div>
+    <div className="App">
       <h1>To Do List</h1>
       <form onSubmit={e => handleSubmit(e)}>
         <label>
