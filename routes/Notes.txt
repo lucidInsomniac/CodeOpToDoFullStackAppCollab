@@ -1,0 +1,273 @@
+MYSQL TUTORIAL: If everything installed correctly
+
+Login to MYSQL:
+        linux: sudo -u root -p 
+
+
+        windows: 
+                Navigate to where mysql is located, ex: bin, copy link from search bar and copy into CMD.
+                Your CMD should look something like this:
+
+                C:\Users\user> cd "C:\Program Files\MYSQL\MYSQL Server 8.0\bin"
+
+                Then press [ENTER], it will display this:
+
+                    C:\Program Files\MYSQL\MYSQL Server 8.0\bin>
+
+                    Enter the following: mysql -u root -p
+                    It will look like this:
+
+                        C:\Program Files\MYSQL\MYSQL Server 8.0\bin>mysql -u root -p
+
+                        You'll get promtped to enter your PW. If PW is valid,
+                        Your prompt will show a Welcome to MYSQL monitor and your 
+                        prompt will start with:
+
+                                mysql> _
+
+                        There is another way that allows you to access without going through previous process:
+                        https://youtu.be/-rzQv9DLfDo
+
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+                    MYSQL Commands Walkthrough 
+
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+1) To see what databases exist, type the command (NOTE: MYSQL commands are NOT case sensitive, 
+    but it helps when adding to your code to prevent confusion):
+
+        Command:
+
+            SHOW DATABASES;
+
+
+   Reminder: DON'T FORGET SEMICOLON! MYSQL will not read the command without it!
+
+        Display:
+
+            +--------------------+
+            | Database           |
+            +--------------------+
+            | information_schema |
+            | mysql              |
+            | performance_schema |
+            | sys                |
+            | todos              |
+            +--------------------+
+
+
+2) To select a particular DB:
+
+    USE [db name];
+
+    ex: USE todos;
+
+
+        **If there is no DB available, you can create a new DB by doing this:**
+
+            CREATE DATABASE [name of your DB];
+
+            ex: CREATE DATABASE todos;
+
+            MYSQL will respond with: "Database changed"
+
+
+3) To see what tables exist in the DB, it will list all tables recorded for the DB "todos":
+
+        Command:
+
+            SHOW TABLES;
+
+        
+        Display:
+
+            +-----------------+
+            | Tables_in_todos |
+            +-----------------+
+            | items           |
+            +-----------------+
+
+
+
+4) To see what is listed in the tables, you will need to select all using SELECT and asterisk (*) 
+    and designate which DB it is pulling from:
+
+        Command:
+
+            SELECT * FROM [name of your table];
+
+            ex: SELECT * FROM items;
+            This command will only show you the main data like this:
+
+        Display:
+
+            +----+-------------+
+            | id | task        |
+            +----+-------------+
+            |  1 | feed dragon |
+            +----+-------------+
+
+
+    To see all details included for the table itself, use "describe":
+
+        Command:
+
+            describe [name of your table];
+            
+            ex: describe items;
+
+        
+        Display:
+
+            +-------+--------------+------+-----+---------+----------------+
+            | Field | Type         | Null | Key | Default | Extra          |
+            +-------+--------------+------+-----+---------+----------------+
+            | id    | int          | NO   | PRI | NULL    | auto_increment |
+            | task  | varchar(100) | YES  |     | NULL    |                |
+            +-------+--------------+------+-----+---------+----------------+
+
+
+        **If there is no table available, you can create a new table by doing this:**
+
+            ex: CREATE TABLE items ( id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, task VARCHAR(100));
+
+                This command creates a table called "items", and within the table, we are creating colums
+                called "id" and "task". These two columns will allow us to pull data later by the id number 
+                and the value contained in task. 
+
+                        What does the extra stuff mean:
+
+                            id => This is the first column in the table "items". It will auto-fill
+                                   with a number as the designated id number after each new entry has been added to the table.
+
+                                INT = Only whole numbers are used
+                                
+                                NOT NULL => id cannot be empty
+
+                                PRIMARY KEY => It will be desginated as the main identifier for the table "items"
+
+                                AUTO_INCREMENT => id will automatically go to the next available number. like id++
+
+
+                            task => This is the second column in the table "items". In this part, your input for the "task" will go here.
+                            
+                                VARCHAR(100) => VARCHAR allows an entry to use uppercase, lowercase, symbols, and numbers as valid characters. 
+                                There is a character limit of 100, you can adjust it to whatever number you would like
+
+
+
+                When created, MYSQL will display:
+
+                    Query OK, 0 rows affected (0.04 sec)
+
+
+
+
+5) Now to insert some data, you can do this:
+
+    INSERT INTO [name of table] ( [name of column] ) VALUES (" [your content for designated column] ")
+
+    ex: INSERT INTO items (task) VALUES ("feed dragon");
+
+
+
+        MYSQL will send a reply:
+
+            Query OK, 1 row affected (0.01 sec)
+
+
+
+        Check to make sure it was added:
+
+            Command:
+
+                SELECT * FROM items;
+                
+
+            Display:
+
+                +----+-------------+
+                | id | task        |
+                +----+-------------+
+                |  1 | feed dragon |
+                +----+-------------+
+
+
+6) How to update an entry in your table:
+
+    UPDATE [name of table] SET [designated column2] = ' [your new content for desiginated column 2] ' WHERE [designated Primary KEY column 1] = [number for referencing Primary Key in column 1];
+
+    ex: UPDATE items SET task = 'rewire the time capacitor in the TARDIS' WHERE id = 1;
+
+        MYSQL will reply back with:
+
+            Query OK, 1 row affected (0.02 sec)
+
+
+            The command updates the table "items" for column 2 "task", and seting the new content 
+            entered in quotations, as the new value, then referencing the Primary Key to make sure it has the 
+            correct entry within the table.
+
+
+
+        Check to see if the update went through:
+
+            Command:
+
+                SELECT * FROM items;
+
+            Display:
+        
+                +----+-----------------------------------------+
+                | id | task                                    |
+                +----+-----------------------------------------+
+                |  1 | rewire the time capacitor in the TARDIS |
+                +----+-----------------------------------------+
+
+
+7) How to delete an entry:
+
+    View table to see which entry to deleted:
+
+        Command:
+
+            SELECT * FROM items;
+
+
+        Display:
+
+            +----+------------------------------------------------------+
+            | id | task                                                 |
+            +----+------------------------------------------------------+
+            |  1 | rewire the time capacitor in the TARDIS              |
+            |  2 | Brush unicorn and give it apples treat, no brownies! |
+            +----+------------------------------------------------------+
+
+
+    DELETE FROM [name of table] WHERE [designated Primary KEY column 1] = [number for referencing Primary Key in column 1];
+
+    ex: DELETE FROM items WHERE id = 2;
+
+        MYSQL replies with:
+
+            Query OK, 1 row affected (0.02 sec)
+
+
+        Check to see if entry was deleted from table:
+
+            Command:
+
+                SELECT * FROM items;
+
+            
+            Display:
+
+                +----+-----------------------------------------+
+                | id | task                                    |
+                +----+-----------------------------------------+
+                |  1 | rewire the time capacitor in the TARDIS |
+                +----+-----------------------------------------+
