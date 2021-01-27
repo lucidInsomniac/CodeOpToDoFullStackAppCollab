@@ -1,3 +1,12 @@
+/************************************************************************
+ *                                                                      *
+ *   You will need to add your password to the DB_PASS = YOUR PW.       *
+ *   Once you add your PW there,  go to the ".gitignore"file and        *
+ *   add the ".env.example" in there if it isn't already there.         *
+ *   Otherwise your password for MYSQL will be exposed in your project  *
+ *                                                                      *
+ ************************************************************************/
+
 /*************Boiler plate************ */
 
 //importing necessary components and depenedencies
