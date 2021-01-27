@@ -25,7 +25,7 @@ router.get("/", (req, res) => {
 router.get("/todos", async (req, res) => {
   //Catch errors in case something goes wrong
   try {
-    //db data must be known
+    //db data must be known, we select from the table called "items"
     let results = await db("SELECT * FROM items ORDER BY id ASC;");
     //check
     console.log("RESULTS", results);
