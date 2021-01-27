@@ -32,60 +32,11 @@
   }
 }
 
+.Form label {
+  display: block;
+}
+
 ul {
   margin: 0;
   padding: 0;
-}
-
-/* style list items */
-ul p {
-  cursor: pointer;
-  position: relative;
-  padding: 12px 8px 12px 40px;
-  background: #eee;
-  font-size: 18px;
-  transition: 0.2s;
-
-  /* unselectable for items*/
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-
-/*odd items in diff colors */
-ul p:nth-child(odd) {
-  background: #f9f9f9;
-}
-
-/*cross out item*/
-ul p {
-  background: #888;
-  color: blue;
-  text-decoration: line-through;
-}
-
-/* checked when clicked on */
-ul p::before {
-  content: "";
-  position: absolute;
-  border-color: red;
-  border-style: solid;
-  border-width: 0 2px 2px 0;
-  top: 10px;
-  left: 16px;
-  transform: rotate(45deg);
-  height: 15px;
-  width: 7px;
-}
-
-input {
-  margin: 0;
-  border: none;
-  border-radius: 0;
-  width: 75%;
-  padding: 10px;
-  float: left;
-  font-size: 16px;
-  border: solid black;
 }

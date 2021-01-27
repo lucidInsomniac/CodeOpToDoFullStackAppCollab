@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import Form from "./components/Form";
 import "./App.css";
 
 export default function App() {
+  let [input, setInput] = useState("");
   let [tasks, setTasks] = useState([]);
 
   useEffect(() => {
@@ -16,6 +16,14 @@ export default function App() {
         // upon failure, show error message
       });
   }, []);
+
+  const handleChange = event => {
+    setInput(event.target.value);
+  };
+
+  const handleSubmit = event => {
+    event.preventDefault();
+  };
 
   const addTask = () => {
     fetch("/api/todos", {
@@ -42,7 +50,14 @@ export default function App() {
 
   return (
     <div>
-      <Form onSubmit={t => addTask(t)} />
+      <h1>To Do List</h1>
+      <form onSubmit={e => handleSubmit(e)}>
+        <label>
+          New Task:
+          <input onChange={e => handleChange(e)} />
+        </label>
+        <button type="submit">Submit</button>
+      </form>
     </div>
   );
 }
