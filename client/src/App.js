@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
+import Form from "./components/Form";
 import "./App.css";
 
-
 export default function App() {
-  let [input, setInput] = useState('');
   let [tasks, setTasks] = useState([]);
 
   useEffect(() => {
@@ -18,14 +17,6 @@ export default function App() {
       });
   }, []);
 
-  const handleChange = (event) => {
-    setInput(event.target.value)
-  }
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-  }
-
   const addTask = () => {
     fetch("/api/todos", {
       method: "POST",
@@ -35,30 +26,23 @@ export default function App() {
       body: JSON.stringify({ input: input })
     });
     // Continue fetch request here
-  }
+  };
 
-  const updateTask = (id) => {
+  const updateTask = id => {
     // update task from database
     // upon success, update tasks
     // upon failure, show error message
-  }
+  };
 
-  const deleteTask = (id) => {
+  const deleteTask = id => {
     // delete task from database
     // upon success, update tasks
     // upon failure, show error message
-  }
+  };
 
   return (
     <div>
-      <h1>To Do List</h1>
-      <form onSubmit={e => handleSubmit(e)}>
-        <label>
-          New Task:
-          <input onChange={e => handleChange(e)} />
-        </label>
-        <button type="submit">Submit</button>
-      </form>
+      <Form onSubmit={t => addTask(t)} />
     </div>
   );
 }
