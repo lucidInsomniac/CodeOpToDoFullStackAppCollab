@@ -6,7 +6,7 @@ var router = express.Router();
 const bodyParser = require("body-parser");
 const db = require("../model/helper");
 
-/*************Middleware*************** */
+/*****************Middleware*************** */
 
 //This lets the server read JSON from the client
 //request and convers them to JS
@@ -38,6 +38,7 @@ router.get("/todos", async (req, res) => {
   res.status(500).send({ error: err.message });
 });
 
+//      ORIGINAL
 // router.get("/todos", (req, res) => {
 //   // Send back the full list of items
 //   db("SELECT * FROM items ORDER BY id ASC;")
@@ -50,12 +51,20 @@ router.get("/todos", async (req, res) => {
 //POST new data
 router.post("/todos", (req, res) => {
   // The request's body is available in req.body
+
   //try
-  //inserts the data
-  //Select all data, // If the query is successful
-  //you should send back the full list of items
-  //Catch errors if any encountered
-  //Response to error, 500 status with message
+  try {
+    //inserts the data
+
+    //Select all data, // If the query is successful
+
+    //you should send back the full list of items
+    res.status(201).send(results.data);
+  } catch (err) {
+    //Catch errors if any encountered
+    //Response to error, 500 status with message
+    res.status(500).send({ error: err.message });
+  }
 });
 
 /***************We will Go over on Thurs************** */
