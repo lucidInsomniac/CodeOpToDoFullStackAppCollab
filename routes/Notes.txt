@@ -5,7 +5,9 @@ Login to MYSQL:
 
 
         windows: 
-                Navigate to where mysql is located, ex: bin, copy link from search bar and copy into CMD.
+                Navigate to where mysql is located, ex: bin, copy link from search bar 
+                and copy into CMD.
+
                 Your CMD should look something like this:
 
                 C:\Users\user> cd "C:\Program Files\MYSQL\MYSQL Server 8.0\bin"
@@ -25,7 +27,8 @@ Login to MYSQL:
 
                                 mysql> _
 
-                        There is another way that allows you to access without going through previous process:
+                        There is another way that allows you to access without going 
+                        through previous process:
                         https://youtu.be/-rzQv9DLfDo
 
 
@@ -142,21 +145,26 @@ Login to MYSQL:
                         What does the extra stuff mean:
 
                             id => This is the first column in the table "items". It will auto-fill
-                                   with a number as the designated id number after each new entry has been added to the table.
+                                   with a number as the designated id number after each new entry has 
+                                   been added to the table.
 
                                 INT = Only whole numbers are used
                                 
                                 NOT NULL => id cannot be empty
 
-                                PRIMARY KEY => It will be desginated as the main identifier for the table "items"
+                                PRIMARY KEY => It will be desginated as the main identifier for the 
+                                table "items"
 
-                                AUTO_INCREMENT => id will automatically go to the next available number. like id++
+                                AUTO_INCREMENT => id will automatically go to the next available number. 
+                                like id++
 
 
-                            task => This is the second column in the table "items". In this part, your input for the "task" will go here.
+                            task => This is the second column in the table "items". In this part, your 
+                            input for the "task" will go here.
                             
-                                VARCHAR(100) => VARCHAR allows an entry to use uppercase, lowercase, symbols, and numbers as valid characters. 
-                                There is a character limit of 100, you can adjust it to whatever number you would like
+                                VARCHAR(100) => VARCHAR allows an entry to use uppercase, lowercase, symbols, 
+                                and numbers as valid characters. There is a character limit of 100, you can 
+                                adjust it to whatever number you would like
 
 
 
@@ -209,8 +217,8 @@ Login to MYSQL:
 
 
             The command updates the table "items" for column 2 "task", and seting the new content 
-            entered in quotations, as the new value, then referencing the Primary Key to make sure it has the 
-            correct entry within the table.
+            entered in quotations, as the new value, then referencing the Primary Key to make sure 
+            it has the correct entry within the table.
 
 
 

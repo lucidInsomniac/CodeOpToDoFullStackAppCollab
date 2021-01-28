@@ -32,19 +32,23 @@ router.get("/", (req, res) => {
 
 //GET all data from DB
 //!!!!!!Make sure url matches this!!!!!!!!!!
-router.get("/todos/items", async (req, res) => {
+router.get("/todos", async (req, res) => {
+  //Whenever we access a DB, we need the "try" and "catch"
   try {
-    //db data must be known, we select from the table called "items", NOT the DB "todos"
+    //db data must be known, we tell MYSQL to select from the table called "items", NOT the DB "todos"
     let results = await db("SELECT * FROM items ORDER BY id ASC;");
     //check
     console.log("RESULTS", results);
     //you should send back the full list of items with status
-    res.status(200).send(results.data);
+    res.status(200).send(results.data); //data is an array of all the rows in the table
     //Catch any errors
   } catch (err) {
     //Response to error, 404 status with message
+    res.status(500).send({ error: err.message });
+    // 500 is server error will show if the table in the DB does not exist.
+    // Ex: let results = await db("SELECT * FROM itemsz ORDER BY id ASC;");, then
+    // Check on postman, it will render 500 server error
   }
-  res.status(404).send({ error: "List not found." });
 });
 
 //      ORIGINAL
@@ -57,10 +61,24 @@ router.get("/todos/items", async (req, res) => {
 //     .catch(err => res.status(500).send(err));
 // });
 
-//POST new data, MAKE SURE SOURCE LINK IS SET TO : http://localhost:5000/api/todos/items2
-//!!NEED TO MAKE SURE MYSQL HAS COLUMN "TASK" BEFORE TESTING
-//Make sure http matches mysql table features, In MYSQL check table name: "items"(or whatever), and column called : "id" & "task"
-//!!!!!!Make sure url matches this!!!!!!!!!!
+//GET data by ID
+router.get("/todos/:id", async (req, res) => {
+  //
+  let id = req.params.id;
+  let sql = `
+    SELECT *
+    FROM items
+    WHERE id = ${id}
+  `;
+  let results = await db(sql);
+  res.send(results.data[0]); //returns obj and not the array for items
+});
+
+//POST new data,
+//        MAKE SURE SOURCE LINK IS SET TO : http://localhost:5000/api/todos/items2
+//    !!NEED TO MAKE SURE MYSQL HAS COLUMN "TASK" BEFORE TESTING
+//        Make sure http matches mysql table features, In MYSQL check table name: "items"(or whatever), and column called : "id" & "task"
+//      !!!!!!Make sure url matches this!!!!!!!!!!
 router.post("/todos/items", async (req, res) => {
   // The request's body is available in req.body
 
@@ -93,7 +111,7 @@ router.post("/todos/items", async (req, res) => {
 //PUT data Update/Replace by ID
 // router.put("/todos/:todo_id", old route
 
-router.put("/todos/items/:id", (req, res) => {
+router.put("/todos/:id", (req, res) => {
   // The request's body is available in req.body
   // URL params are available in req.params
   // If the query is successfull you should send back the full list of items
@@ -106,7 +124,7 @@ router.put("/todos/items/:id", (req, res) => {
 });
 
 //DELETE data by ID
-router.delete("/todos/items/:id", (req, res) => {
+router.delete("/todos/:id", (req, res) => {
   // URL params are available in req.params
   // Add your code here
   //
