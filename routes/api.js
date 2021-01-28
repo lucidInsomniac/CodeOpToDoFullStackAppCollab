@@ -23,6 +23,19 @@ router.use(bodyParser.json());
 
 /*******************Routes**************** */
 
+/* the url is "/todos" not "/todos/items", because the 
+          DB is a backend feature, and we don't want the 
+          client side to know the structure, like how API 
+          don't need to want to know how it functions, just 
+          that it functions.
+
+          APIs should not require knowledge of the underlying 
+          implementation. Think of the Stack class: I only 
+          have to know about push() and pop(). I don’t have 
+          to know how the data I push is actually managed 
+          inside the Stack class: With an array? A linked 
+          list? Something else?  */
+
 //Get hompage
 //client request for homepage, Browser will prompt you to got to "/api"
 router.get("/", (req, res) => {
@@ -65,13 +78,26 @@ router.get("/todos", async (req, res) => {
 router.get("/todos/:id", async (req, res) => {
   //
   let id = req.params.id;
+  //Tells MYSQL to select all rows from items
+  //where the id matches the req.params.id
   let sql = `
     SELECT *
     FROM items
     WHERE id = ${id}
   `;
-  let results = await db(sql);
-  res.send(results.data[0]); //returns obj and not the array for items
+
+  try {
+    // We need try block because something can go wrong with
+    //these set of codes. Previous codes will not cause errors.
+
+    //since it is async, we keep the link open to await a response for the DB
+    // to select and returnt the matched id record
+    let results = await db(sql);
+    //returns obj and not the array for items
+    res.send(results.data[0]);
+  } catch (err) {
+    res.status(500).send({ error: err.message });
+  }
 });
 
 //POST new data,
@@ -79,10 +105,12 @@ router.get("/todos/:id", async (req, res) => {
 //    !!NEED TO MAKE SURE MYSQL HAS COLUMN "TASK" BEFORE TESTING
 //        Make sure http matches mysql table features, In MYSQL check table name: "items"(or whatever), and column called : "id" & "task"
 //      !!!!!!Make sure url matches this!!!!!!!!!!
-router.post("/todos/items", async (req, res) => {
+router.post("/todos/", async (req, res) => {
   // The request's body is available in req.body
 
   let { task } = req.body;
+  //SQL command to tell MYSQL to insert entered record into the table "items" for the
+  // column called "task" with the values from the entered "req.body"/ { task }
   let sql = `
     INSERT INTO items (task)
     VALUES ('${task}')
@@ -96,13 +124,14 @@ router.post("/todos/items", async (req, res) => {
     //Select all data, // If the query is successful
     results = await db("SELECT * FROM items");
 
-    //you should send back the full list of items
+    //you should send back the full list of items as confirmation
+    //status 201, new creation created
     //console.log(results.data);
     res.status(201).send(results.data);
   } catch (err) {
     //Catch errors if any encountered
     //Response to error, 500 status with message
-    res.status(404).send({ error: err.message });
+    res.status(500).send({ error: err.message });
   }
 });
 
