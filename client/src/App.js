@@ -1,9 +1,17 @@
+/************************************************************************
+ *                                                                      *
+ *   You will need to add your password to the DB_PASS = YOUR PW.       *
+ *   Once you add your PW there,  go to the ".gitignore"file and        *
+ *   add the ".env.example" in there if it isn't already there.         *
+ *   Otherwise your password for MYSQL will be exposed in your project  *
+ *                                                                      *
+ ************************************************************************/
+
 import React, { useEffect, useState } from "react";
 import "./App.css";
 
-
 export default function App() {
-  let [input, setInput] = useState('');
+  let [input, setInput] = useState("");
   let [tasks, setTasks] = useState([]);
 
   useEffect(() => {
@@ -18,13 +26,13 @@ export default function App() {
       });
   }, []);
 
-  const handleChange = (event) => {
-    setInput(event.target.value)
-  }
+  const handleChange = event => {
+    setInput(event.target.value);
+  };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = event => {
     event.preventDefault();
-  }
+  };
 
   const addTask = () => {
     fetch("/api/todos", {
@@ -35,22 +43,22 @@ export default function App() {
       body: JSON.stringify({ input: input })
     });
     // Continue fetch request here
-  }
+  };
 
-  const updateTask = (id) => {
+  const updateTask = id => {
     // update task from database
     // upon success, update tasks
     // upon failure, show error message
-  }
+  };
 
-  const deleteTask = (id) => {
+  const deleteTask = id => {
     // delete task from database
     // upon success, update tasks
     // upon failure, show error message
-  }
+  };
 
   return (
-    <div>
+    <div className="App">
       <h1>To Do List</h1>
       <form onSubmit={e => handleSubmit(e)}>
         <label>

@@ -1,5 +1,12 @@
+/** CSS Style Sheet Link
+https://www.getpapercss.com/docs/
+implemented elements on index.html, but ref paper css 
+keywords for client App.css and index.css*/
+
 .App {
   text-align: center;
+  justify-content: center;
+  padding: 40px 40px;
 }
 
 .App-logo {
@@ -14,7 +21,6 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
 }
@@ -30,4 +36,22 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.Form label {
+  display: inline-block;
+  text-align: center;
+  justify-content: center;
+}
+
+input {
+  display: inline-block;
+  text-align: center;
+  justify-content: center;
+  margin: 10px 10px;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
 }

@@ -1,5 +1,14 @@
+/** CSS Style Sheet Link
+https://www.getpapercss.com/docs/
+implemented elements on index.html, but ref paper css 
+keywords for client App.css and index.css*/
+
 body {
-  margin: 0;
+  width: 800px;
+  margin: 0 auto;
+  text-align: center;
+  box-sizing: border-box;
+  align-items: center;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
     "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
