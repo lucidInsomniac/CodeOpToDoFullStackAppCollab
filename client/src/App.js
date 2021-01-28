@@ -25,10 +25,11 @@ export default function App() {
   //we want side effect = fetch automatically and get data from the server on 1st try
   useEffect(() => {
     //FETCH DONE
-    fetch("/api/todos")
+    fetch("/api/todos") //this connects to the server api.js
       // our promise for fetch, instead of using "async", "wait", and "try"
+      //This is the request
       .then(response => response.json())
-      //the response returned with actual data
+      //this is the response returned with actual data
       .then(tasks => {
         console.log(tasks);
         // upon success, update tasks
@@ -39,28 +40,12 @@ export default function App() {
         // upon failure, show error message
         console.log("ERROR:", err.message);
       });
-  }, []);
-
-  //DONE ON FORM COMP
-  // const handleChange = event => {
-  //   setInput(event.target.value);
-  // };
-
-  //DONE ON FORM COMP
-  // const handleSubmit = event => {
-  //   event.preventDefault();
-
-  //   setTasks([input]);
-
-  // };
-
-  //added by us
-  // const handleAddTask = newTask => {
-  //   setTasks(state => [...state, newTask]);
-  // };
+  }, []); //gets saved in the state
 
   //task = is a name placeholer for a newTask, since it is not defined anywhere
   function addTask(task) {
+    //pass task from Form
+    // ******** we still need to add the "completed" boolean variable
     let newTask = task;
     let options = {
       method: "POST",
@@ -70,7 +55,7 @@ export default function App() {
       body: JSON.stringify({ task: newTask })
     };
 
-    fetch("/api/todos", options)
+    fetch("/api/todos", options) //Shows DB with added entry
       // our promise for fetch, instead of using "async", "wait", and "try"
       .then(response => response.json())
       //the response returned with actual data
@@ -93,27 +78,39 @@ export default function App() {
     // upon failure, show error message
   };
 
-  const deleteTask = id => {
-    // delete task from database
-    // upon success, update tasks
-    // upon failure, show error message
-  };
+  // const deleteTask = id => {
+
+  //   let options = {
+  //     method: "DELETE",
+  //     headers: {
+  //       "Content-Type": "application/json"
+  //     },
+  //     body: JSON.stringify({ task: tasks })
+  //   };
+
+  //   fetch(`/api/todos/${id}`, options)
+  //     // our promise for fetch, instead of using "async", "wait", and "try"
+  //     .then(response => response.json())
+  //     //the response returned with actual data
+  //     .then(tasks => {
+  //       console.log(tasks);
+  //       // upon success, update tasks
+  //       setTasks(tasks);
+  //     })
+  //     //catches error
+  //     .catch(err => {
+  //       // upon failure, show error message
+  //       console.log("ERROR:", err.message);
+  //     });
+  //   // Continue fetch request here
+
+  //   // delete task from database
+  //   // upon success, update tasks
+  //   // upon failure, show error message
+  // };
 
   return (
     <div className="App">
-      {/* <h1>To Do List</h1>
-      <form onSubmit={e => handleSubmit(e)}>
-        <label>
-          New Task:
-          <input 
-          type="text"
-          className="task"
-          value={input}
-          onChange={e => handleChange(e)} />
-        </label>
-        <button type="submit">Submit</button>
-      </form> */}
-
       <TaskForm onSubmit={newTask => addTask(newTask)} />
 
       <h2>Current Tasks</h2>

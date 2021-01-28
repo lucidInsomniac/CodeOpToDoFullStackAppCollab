@@ -2,6 +2,7 @@ import React, { useState } from "react";
 
 function TaskForm(props) {
   const [input, setInput] = useState("");
+  //add another value for boolean, to allow crossing task out
 
   const handleChange = event => {
     setInput(event.target.value);
@@ -9,8 +10,6 @@ function TaskForm(props) {
 
   function handleSubmit(event) {
     event.preventDefault();
-
-    //let task = event.target;
 
     const taskItem = input;
 
@@ -24,10 +23,13 @@ function TaskForm(props) {
   return (
     <div className="App">
       <h1>To Do List</h1>
+      {/* onSubmit ={e => handleSubmit(e)} is the same as 
+            onSubmit = { handleSubmit }*/}
       <form onSubmit={handleSubmit}>
-        <label>
+        <label htmlFor="form">
           New Task:
           <input
+            id="task"
             type="text"
             className="task"
             value={input}
