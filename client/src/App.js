@@ -12,6 +12,7 @@
 
 import React, { useEffect, useState } from "react";
 import TaskForm from "./components/TaskForm";
+import CurrentTasks from "./components/CurrentTasks";
 import "./App.css";
 
 export default function App() {
@@ -112,14 +113,6 @@ export default function App() {
   return (
     <div className="App">
       <TaskForm onSubmit={newTask => addTask(newTask)} />
-
-      <h2>Current Tasks</h2>
-
-      <ul>
-        {/* "todo.map()" won't render until "todos"has value */}
-
-        {tasks && tasks.map(t => <li map={t.task}>{t.task}</li>)}
-      </ul>
     </div>
   );
 }
