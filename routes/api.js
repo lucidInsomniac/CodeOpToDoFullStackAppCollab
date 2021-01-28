@@ -100,38 +100,30 @@ router.get("/todos/:id", async (req, res) => {
   }
 });
 
-//POST new data,
-//        MAKE SURE SOURCE LINK IS SET TO : http://localhost:5000/api/todos/items2
-//    !!NEED TO MAKE SURE MYSQL HAS COLUMN "TASK" BEFORE TESTING
-//        Make sure http matches mysql table features, In MYSQL check table name: "items"(or whatever), and column called : "id" & "task"
-//      !!!!!!Make sure url matches this!!!!!!!!!!
+//POST new data, MAKE SURE SOURCE LINK IS SET TO : http://localhost:5000/api/todos/items2
+//!!NEED TO MAKE SURE MYSQL HAS COLUMN "TASK" BEFORE TESTING
+//Make sure http matches mysql table features, In MYSQL check table name: "items"(or whatever), and column called : "id" & "task"
+//!!!!!!Make sure url matches this, and on Postman, make sure the raw is set to JSON  !!!!!!!!!!
 router.post("/todos/", async (req, res) => {
   // The request's body is available in req.body
-
   let { task } = req.body;
-  //SQL command to tell MYSQL to insert entered record into the table "items" for the
-  // column called "task" with the values from the entered "req.body"/ { task }
   let sql = `
     INSERT INTO items (task)
     VALUES ('${task}')
   `;
-
   //try
   try {
     //inserts the data
     let results = await db(sql);
-
     //Select all data, // If the query is successful
     results = await db("SELECT * FROM items");
-
-    //you should send back the full list of items as confirmation
-    //status 201, new creation created
+    //you should send back the full list of items
     //console.log(results.data);
     res.status(201).send(results.data);
   } catch (err) {
     //Catch errors if any encountered
     //Response to error, 500 status with message
-    res.status(500).send({ error: err.message });
+    res.status(404).send({ error: err.message });
   }
 });
 
