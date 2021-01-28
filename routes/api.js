@@ -5,7 +5,11 @@
  *   add the ".env.example" in there if it isn't already there.         *
  *   Otherwise your password for MYSQL will be exposed in your project  *
  *                                                                      *
- ************************************************************************/
+ *   IMPORTANT: Git add, commit, and                                    *
+ *   push NEED ON BOTH SERVER AND CLIENT!!                              *
+ *                                                                      *
+ ***
+ *********************************************************************/
 
 /*************Boiler plate************ */
 
