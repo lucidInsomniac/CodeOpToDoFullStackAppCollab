@@ -11,8 +11,12 @@ export default function CurrentTasks(props) {
           props.tasks.map(t => (
             <li className="task" key={t.task}>
               {t.task}
-              <button onClick={e => props.onDelete(t.id)} type="button">
-                Sayonara!
+              <button
+                id="delete"
+                onClick={e => props.onDelete(t.id)}
+                type="button"
+              >
+                Delete
               </button>
             </li>
           ))}

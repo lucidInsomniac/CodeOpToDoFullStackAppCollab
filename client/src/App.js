@@ -43,20 +43,27 @@ export default function App() {
       });
   }, []); //gets saved in the state
 
+  //DONE and works
   //task = is a name placeholer for a newTask, since it is not defined anywhere
   function addTask(task) {
     //pass task from Form
     // ******** we still need to add the "completed" boolean variable
+    // Define new task set to task
     let newTask = task;
+
+    //Method default is always GET, to change it, you need to
+    //explicitly tell REACT to send POST request
     let options = {
-      method: "POST",
+      method: "POST", //We are adding a new task
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json" //Description of file type is a JSON format
       },
+      //method to convert the "task" key and "newTask" value JS
+      //elements into JSON elements from the data entered in the body
       body: JSON.stringify({ task: newTask })
     };
-
-    fetch("/api/todos", options) //Shows DB with added entry
+    //Shows DB with added entry
+    fetch("/api/todos", options)
       // our promise for fetch, instead of using "async", "wait", and "try"
       .then(response => response.json())
       //the response returned with actual data
@@ -70,7 +77,6 @@ export default function App() {
         // upon failure, show error message
         console.log("ERROR:", err.message);
       });
-    // Continue fetch request here
   }
 
   const updateTask = id => {
@@ -79,40 +85,37 @@ export default function App() {
     // upon failure, show error message
   };
 
-  // const deleteTask = id => {
+  //DONE and works!
+  function deleteTask(id) {
+    //Method default is always GET, to change it, you need to
+    //explicitly tell REACT to send DELETE request
+    let options = {
+      method: "DELETE", //We are removing an existing task from our list of tasks
+      //method to convert the "task" key and "tasks" value JS
+      //elements into JSON elements from the data entered in the body
+      body: JSON.stringify({ task: tasks })
+    };
 
-  //   let options = {
-  //     method: "DELETE",
-  //     headers: {
-  //       "Content-Type": "application/json"
-  //     },
-  //     body: JSON.stringify({ task: tasks })
-  //   };
-
-  //   fetch(`/api/todos/${id}`, options)
-  //     // our promise for fetch, instead of using "async", "wait", and "try"
-  //     .then(response => response.json())
-  //     //the response returned with actual data
-  //     .then(tasks => {
-  //       console.log(tasks);
-  //       // upon success, update tasks
-  //       setTasks(tasks);
-  //     })
-  //     //catches error
-  //     .catch(err => {
-  //       // upon failure, show error message
-  //       console.log("ERROR:", err.message);
-  //     });
-  //   // Continue fetch request here
-
-  //   // delete task from database
-  //   // upon success, update tasks
-  //   // upon failure, show error message
-  // };
+    fetch(`/api/todos/${id}`, options)
+      // our promise for fetch, instead of using "async", "wait", and "try"
+      .then(response => response.json())
+      //the response returned with actual data
+      .then(tasks => {
+        console.log(tasks);
+        // upon success, update tasks
+        setTasks(tasks);
+      })
+      //catches error
+      .catch(err => {
+        // upon failure, show error message
+        console.log("ERROR:", err.message);
+      });
+  }
 
   return (
     <div className="App">
       <TaskForm onSubmit={newTask => addTask(newTask)} />
+      <CurrentTasks tasks={tasks} onDelete={id => deleteTask(id)} />
     </div>
   );
 }

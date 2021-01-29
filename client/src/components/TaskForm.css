@@ -1,12 +1,6 @@
-label {
-  display: inline-block;
-  text-align: center;
-  justify-content: center;
-}
-
+/*Applies to input field only*/
 input {
   display: inline-block;
   text-align: center;
-  justify-content: center;
   margin: 10px 10px;
 }
