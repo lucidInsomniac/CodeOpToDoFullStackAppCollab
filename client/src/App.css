@@ -38,19 +38,6 @@ keywords for client App.css and index.css*/
   }
 }
 
-.Form label {
-  display: inline-block;
-  text-align: center;
-  justify-content: center;
-}
-
-input {
-  display: inline-block;
-  text-align: center;
-  justify-content: center;
-  margin: 10px 10px;
-}
-
 ul {
   margin: 0;
   padding: 0;

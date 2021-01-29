@@ -1,0 +1,12 @@
+label {
+  display: inline-block;
+  text-align: center;
+  justify-content: center;
+}
+
+input {
+  display: inline-block;
+  text-align: center;
+  justify-content: center;
+  margin: 10px 10px;
+}
