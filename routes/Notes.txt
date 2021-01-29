@@ -205,7 +205,7 @@ Login to MYSQL:
                 +----+-------------+
 
 
-6) How to Insert a NEW COLUMN into an existing table:
+6) How to Insert a NEW COLUMN into an existing table, reference: https://www.mysqltutorial.org/mysql-boolean/:
 
     Command:
 

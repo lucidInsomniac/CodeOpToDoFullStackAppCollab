@@ -162,7 +162,7 @@ router.put("/todos/:id", async (req, res) => {
                                   */
       sql = `               
         UPDATE items
-        SET task = '${task}'
+        SET Completed = '${task}'
         WHERE id = ${id}
       `;
       //awaiting response on adding the new task to the DB
