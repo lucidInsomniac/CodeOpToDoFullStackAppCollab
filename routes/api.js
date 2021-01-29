@@ -148,7 +148,19 @@ router.put("/todos/:id", async (req, res) => {
       //Tells MYSQL to update new task in the table "items" by setting the column
       // called "task" with the matching id from URL
       //Has to be in MYSQL syntax
-      sql = `
+
+      /*!!!! We need to change this for updateTask!!!   
+
+                                  1 - On MYSQL to create new column: 
+                                  
+                                    ALTER TABLE items ADD Completed BOOLEAN NOT NULL; 
+
+                                  2- In VScode, we modify 'false'to 'true' , using this command for the variable "sql":
+
+                                    UPDATE items SET Completed = 1 WHERE id = ${id};
+                                    
+                                  */
+      sql = `               
         UPDATE items
         SET task = '${task}'
         WHERE id = ${id}

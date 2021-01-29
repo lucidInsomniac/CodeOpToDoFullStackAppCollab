@@ -205,9 +205,166 @@ Login to MYSQL:
                 +----+-------------+
 
 
-6) How to update an entry in your table:
+6) How to Insert a NEW COLUMN into an existing table:
 
-    UPDATE [name of table] SET [designated column2] = ' [your new content for desiginated column 2] ' WHERE [designated Primary KEY column 1] = [number for referencing Primary Key in column 1];
+    Command:
+
+        ALTER TABLE [name of table] ADD [datatype];
+
+
+            ex.: ALTER TABLE items ADD Completed BOOLEAN NOT NULL;
+
+            This tells MYSQL we want to modify the table items by adding 
+            a new column called "Completed", and we want the data type
+            to be a boolean and it cannot be null, and as a default will
+            autofill the 
+
+
+    MYSQL responds with:
+
+        Query OK, 0 rows affected (0.04 sec)
+        Records: 0  Duplicates: 0  Warnings: 0
+
+
+            Check data type by typing in:
+
+                 Command: 
+                            
+                   describe items;
+
+
+                 Display:
+
+                            +-----------+--------------+------+-----+---------+----------------+
+                            | Field     | Type         | Null | Key | Default | Extra          |
+                            +-----------+--------------+------+-----+---------+----------------+
+                            | id        | int          | NO   | PRI | NULL    | auto_increment |
+                            | task      | varchar(100) | YES  |     | NULL    |                |
+                            | Completed | tinyint(1)   | NO   |     | NULL    |                |
+                            +-----------+--------------+------+-----+---------+----------------+
+                            
+                            Even though we specified the column to be a BOOLEAN, the table definition
+                            displays TINYINT(1). It is reading it as binary True (1) and False (0).
+
+
+                View the table to see the column with the default value (0) for false.
+
+                    Command:
+
+                            SELECT * FROM items;
+
+
+                    Display:
+
+                            +----+-----------------------------------------+-----------+
+                            | id | task                                    | Completed |
+                            +----+-----------------------------------------+-----------+
+                            |  1 | rewire the time capacitor in the TARDIS |         0 |
+                            |  6 | give unicorns a bath                    |         0 |
+                            |  7 | Brush griffon feathers                  |         0 |
+                            | 10 | Give the dragons some playtime!         |         0 |
+                            | 14 | Feed Fifi                               |         0 |
+                            | 15 | YAAYYYY Our Fullstack worked!!!!!!!!    |         0 |
+                            | 16 | Hi Donna! :D                            |         0 |
+                            | 17 | hihihi                                  |         0 |
+                            | 19 | More potatoees and mushrooms!!          |         0 |
+                            | 20 | Catch some sprites                      |         0 |
+                            +----+-----------------------------------------+-----------+
+
+                    
+                You can call on the verbal 'true'and 'false'by using the following:
+                
+                    Command:
+
+                            SELECT id, task, IF(Completed, 'true', 'false') Completed FROM items;
+
+                    
+                    Display: MYSQL automatically converts 1 and 0 to true and false.
+
+                            +----+-----------------------------------------+-----------+
+                            | id | task                                    | Completed |
+                            +----+-----------------------------------------+-----------+
+                            |  1 | rewire the time capacitor in the TARDIS | false     |
+                            |  6 | give unicorns a bath                    | false     |
+                            |  7 | Brush griffon feathers                  | false     |
+                            | 10 | Give the dragons some playtime!         | false     |
+                            | 14 | Feed Fifi                               | false     |
+                            | 15 | YAAYYYY Our Fullstack worked!!!!!!!!    | false     |
+                            | 16 | Hi Donna! :D                            | false     |
+                            | 17 | hihihi                                  | false     |
+                            | 19 | More potatoees and mushrooms!!          | false     |
+                            | 20 | Catch some sprites                      | false     |
+                            +----+-----------------------------------------+-----------+
+
+                    When modifying the 'false'to 'true', like if we press an update button 
+                    to change the values for a task to be completed, it will go from 'false'to 'true'.
+                    We can use this:
+
+                        Command:
+
+                            UPDATE [name of table] SET [designated column] = [binary number for true (1) of false (0)] WHERE [designated Primary KEY column] = [number for referencing Primary Key in column ];
+
+                            UPDATE items SET Completed = 1 WHERE id = 20;
+
+
+                        MYSQL responds with:
+
+                            Query OK, 1 row affected (0.02 sec)
+                            Rows matched: 1  Changed: 1  Warnings: 0
+
+
+                        Check to make sure it changed successfully:
+
+                            Command:
+
+                                SELECT *, IF(Completed, 'true', 'false') Completed FROM items;
+
+                            
+                            Display:
+
+
+                                +----+-----------------------------------------+-----------+
+                                | id | task                                    | Completed |
+                                +----+-----------------------------------------+-----------+
+                                |  1 | rewire the time capacitor in the TARDIS | false     |
+                                |  6 | give unicorns a bath                    | false     |
+                                |  7 | Brush griffon feathers                  | false     |
+                                | 10 | Give the dragons some playtime!         | false     |
+                                | 14 | Feed Fifi                               | false     |
+                                | 15 | YAAYYYY Our Fullstack worked!!!!!!!!    | false     |
+                                | 16 | Hi Donna! :D                            | false     |
+                                | 17 | hihihi                                  | false     |
+                                | 19 | More potatoees and mushrooms!!          | false     |
+                                | 20 | Catch some sprites                      | true      |
+                                +----+-----------------------------------------+-----------+
+
+
+                                    You can also use:
+
+                                            SELECT *, IF(Completed, 'true', 'false') Completed FROM items;
+
+                                        But it will provide you with both binary and verbal boolean values.
+
+                                +----+-----------------------------------------+-----------+-----------+
+                                | id | task                                    | Completed | Completed |
+                                +----+-----------------------------------------+-----------+-----------+
+                                |  1 | rewire the time capacitor in the TARDIS |         0 | false     |
+                                |  6 | give unicorns a bath                    |         0 | false     |
+                                |  7 | Brush griffon feathers                  |         0 | false     |
+                                | 10 | Give the dragons some playtime!         |         0 | false     |
+                                | 14 | Feed Fifi                               |         0 | false     |
+                                | 15 | YAAYYYY Our Fullstack worked!!!!!!!!    |         0 | false     |
+                                | 16 | Hi Donna! :D                            |         0 | false     |
+                                | 17 | hihihi                                  |         0 | false     |
+                                | 19 | More potatoees and mushrooms!!          |         0 | false     |
+                                | 20 | Catch some sprites                      |         1 | true      |
+                                +----+-----------------------------------------+-----------+-----------+
+
+
+
+7) How to update an entry in your table:
+
+    UPDATE [name of table] SET [designated column] = ' [your new content for desiginated column ] ' WHERE [designated Primary KEY column ] = [number for referencing Primary Key in column ];
 
     ex: UPDATE items SET task = 'rewire the time capacitor in the TARDIS' WHERE id = 1;
 
@@ -237,7 +394,7 @@ Login to MYSQL:
                 +----+-----------------------------------------+
 
 
-7) How to delete an entry:
+8) How to delete an entry:
 
     View table to see which entry to deleted:
 
