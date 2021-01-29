@@ -1,0 +1,11 @@
+/*Applies to input field only*/
+input {
+  display: inline-block;
+  text-align: center;
+  margin: 10px 10px;
+}
+
+.CompletedTasks {
+  filter: brightness(50%);
+  text-decoration: line-through;
+}

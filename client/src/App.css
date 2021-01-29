@@ -3,55 +3,42 @@ https://www.getpapercss.com/docs/
 implemented elements on index.html, but ref paper css 
 keywords for client App.css and index.css*/
 
+/* wrapper for App */
 .App {
   text-align: center;
   justify-content: center;
   padding: 40px 40px;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
-  pointer-events: none;
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-.Form label {
-  display: inline-block;
+/* listed items */
+li {
   text-align: center;
   justify-content: center;
-}
-
-input {
-  display: inline-block;
-  text-align: center;
-  justify-content: center;
-  margin: 10px 10px;
-}
-
-ul {
   margin: 0;
-  padding: 0;
+  padding: 20px 20px;
+}
+
+/* Applies to delete button for listed items*/
+#delete {
+  /*shrinks button width  */
+  width: 20%;
+  display: inline-block;
+  /* curves button shape */
+  border-radius: 15px;
+  /*spacing between listed item and delete btn*/
+  margin-left: 40px;
+}
+
+/*Applies to all buttons*/
+button {
+  /* makes sure button doesn't shift */
+  position: relative;
+  /*size of font*/
+  font-size: 110%;
+  font-weight: bold;
+  text-align: center;
+  justify-content: center;
+  /* curves button shape */
+  border-radius: 15px;
+  margin: 10px 10px;
 }

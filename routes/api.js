@@ -8,7 +8,7 @@
  *   IMPORTANT: Git add, commit, and                                    *
  *   push NEED ON BOTH SERVER AND CLIENT!!                              *
  *                                                                      *
- ***
+ *                                                                      *
  *********************************************************************/
 
 /*************Boiler plate************ */
@@ -44,15 +44,16 @@ router.use(bodyParser.json());
 //client request for homepage, Browser will prompt you to got to "/api"
 router.get("/", (req, res) => {
   //Once connected, expects a response with a message
-  res.send("Welcome to the API");
+  res.send({ message: "Welcome to the API" });
 });
 
 //GET all data from DB
 //!!!!!!Make sure url matches this!!!!!!!!!!
 router.get("/todos", async (req, res) => {
-  //Whenever we access a DB, we need the "try" and "catch"
+  //Whenever we access a DB with "async" and "await", we need the "try" and "catch"
   try {
     //db data must be known, we tell MYSQL to select from the table called "items", NOT the DB "todos"
+    //Has to be in MYSQL syntax
     let results = await db("SELECT * FROM items ORDER BY id ASC;");
     //check
     console.log("RESULTS", results);
@@ -68,28 +69,20 @@ router.get("/todos", async (req, res) => {
   }
 });
 
-//      ORIGINAL
-// router.get("/todos", (req, res) => {
-//   // Send back the full list of items
-//   db("SELECT * FROM items ORDER BY id ASC;")
-//     .then(results => {
-//       res.send(results.data);
-//     })
-//     .catch(err => res.status(500).send(err));
-// });
-
 //GET data by ID
 router.get("/todos/:id", async (req, res) => {
-  //
+  //Get id from URL
   let id = req.params.id;
   //Tells MYSQL to select all rows from items
   //where the id matches the req.params.id
+  //Has to be in MYSQL syntax
   let sql = `
     SELECT *
     FROM items
     WHERE id = ${id}
   `;
 
+  //Whenever we access a DB with "async" and "await", we need the "try" and "catch"
   try {
     // We need try block because something can go wrong with
     //these set of codes. Previous codes will not cause errors.
@@ -97,7 +90,7 @@ router.get("/todos/:id", async (req, res) => {
     //since it is async, we keep the link open to await a response for the DB
     // to select and returnt the matched id record
     let results = await db(sql);
-    //returns obj and not the array for items
+    //returns obj and not the array for items, results.data is array, we want the index of [0]
     res.send(results.data[0]);
   } catch (err) {
     res.status(500).send({ error: err.message });
@@ -110,16 +103,18 @@ router.get("/todos/:id", async (req, res) => {
 //!!!!!!Make sure url matches this, and on Postman, make sure the raw is set to JSON  !!!!!!!!!!
 router.post("/todos/", async (req, res) => {
   // The request's body is available in req.body
-  let { task } = req.body;
+  let { task, completed } = req.body;
+  //Has to be in MYSQL syntax
   let sql = `
-    INSERT INTO items (task)
-    VALUES ('${task}')
+    INSERT INTO items (task, completed)
+    VALUES ('${task}', ${completed})
   `;
-  //try
+  //Whenever we access a DB with "async" and "await", we need the "try" and "catch"
   try {
     //inserts the data
     let results = await db(sql);
-    //Select all data, // If the query is successful
+    //awaiting response to MYSQL to select all data, // If the query is successful
+    //Has to be in MYSQL syntax
     results = await db("SELECT * FROM items");
     //you should send back the full list of items
     //console.log(results.data);
@@ -127,32 +122,96 @@ router.post("/todos/", async (req, res) => {
   } catch (err) {
     //Catch errors if any encountered
     //Response to error, 500 status with message
-    res.status(404).send({ error: err.message });
+    // console.log(err.message)
+    res.status(500).send({ error: err.message });
   }
 });
 
-/***************We will Go over on Thurs************** */
-
 //PUT data Update/Replace by ID
-// router.put("/todos/:todo_id", old route
+// Checks out on Postman :D
+router.put("/todos/:id", async (req, res) => {
+  //Get id from URL
+  let id = req.params.id;
+  let completed = req.params.completed;
+  //Whenever we access a DB with "async" and "await", we need the "try" and "catch"
+  try {
+    //Tells MYSQL to select all tasks from table "items" with matching id from URL
+    //Has to be in MYSQL syntax
+    let sql = `SELECT * FROM items WHERE id = ${id}`;
+    //awaiting response from DB to add new task
+    let results = await db(sql);
+    //If DB finds a value of 1 for the array length in our data array
+    if (results.data.length === 1) {
+      console.log(results.data.length);
 
-router.put("/todos/:id", (req, res) => {
-  // The request's body is available in req.body
-  // URL params are available in req.params
-  // If the query is successfull you should send back the full list of items
-  // task not found; return 404 status code
-  // Create new obj from request body
-  // Make sure modified task doesn't try to change ID
-  // Replace old task with modified one
-  // Return modified task as confirmation
-  //
+      /*!!!! We need to change this for updateTask!!!   
+
+                                  1 - On MYSQL to create new column: 
+                                  
+                                    ALTER TABLE items ADD Completed BOOLEAN NOT NULL; 
+
+                                  2- In VScode, we modify 'false'to 'true' , using this command for the variable "sql":
+
+                                    UPDATE items SET Completed = 1 WHERE id = ${id};
+                                    
+                                  */
+
+      sql = `               
+        UPDATE items
+        SET Completed = ${!completed}
+        WHERE id = ${id}
+      `;
+
+      //awaiting response on adding the new task to the DB
+      await db(sql);
+      // Replace old task with modified one
+      //Has to be in MYSQL syntax
+      results = await db("SELECT * FROM items");
+      //And return the full list of items when successful
+      res.send(results.data);
+    } else {
+      // else task not found; return 404 status code, does not exist in table "items"
+      res.status(404).send({ error: "Oh no you broke me :(" });
+    }
+    //catches any errors with error 500 server status and message
+  } catch (err) {
+    res.status(500).send({ error: err.message });
+  }
 });
 
 //DELETE data by ID
-router.delete("/todos/:id", (req, res) => {
-  // URL params are available in req.params
-  // Add your code here
-  //
+//Checks out on Postman :D too! YAY!
+router.delete("/todos/:id", async (req, res) => {
+  //Get id from URL
+  let id = req.params.id;
+  //Whenever we access a DB with "async" and "await", we need the "try" and "catch"
+  try {
+    //Tell MYSQL to select all from the table "items with the id matching the id from URL
+    //Has to be in MYSQL syntax
+    let sql = `SELECT * FROM items WHERE id = ${id}`;
+    //awaiting response from DB to add new task
+    let results = await db(sql);
+    //If DB finds a value of 1 for the array length in our data array
+    if (results.data.length === 1) {
+      //Tells MYSQL to delete a task in the table "items" by setting the column
+      // called "task" with the matching id from URL
+      //Has to be in MYSQL syntax
+      sql = `DELETE FROM items WHERE id = ${id}`;
+      // Delete the task selected task
+      await db(sql);
+      //Awaiting response from MYSQL to select all tasks from table "items"
+      //Has to be in MYSQL syntax
+      results = await db("SELECT * FROM items");
+      //And return the full list of items when successful
+      res.send(results.data);
+    } else {
+      // else task not found; return 404 status code, does not exist in table "items"
+      res.status(404).send({ error: "Oh no you broke me :(" });
+    }
+    //catches any errors with error 500 server status and message
+  } catch (err) {
+    res.status(500).send({ error: err.message });
+  }
 });
 
 module.exports = router;
