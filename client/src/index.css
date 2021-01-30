@@ -4,7 +4,10 @@ implemented elements on index.html, but ref paper css
 keywords for client App.css and index.css*/
 
 body {
-  width: 800px;
+  max-width: 1024px;
+  background-image: url("./components/Minimalist-Wallpaper-24-1620-x-2880.jpg");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
   margin: 0 auto;
   text-align: center;
   box-sizing: border-box;

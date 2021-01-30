@@ -14,29 +14,30 @@ export default function CurrentTasks(props) {
 
         {props.tasks &&
           props.tasks.map(t => (
-
-            <li
+            <p
               key={t.task}
               className={t.Completed === 1 ? "CompletedTasks" : ""}
             >
               {t.task}
 
-              <button
-                id="complete"
-                onClick={() => props.onUpdateTask(t.id)}
-                type="button"
-              >
-                Complete
-              </button>
+              <div className="list-btns">
+                <button
+                  id="complete"
+                  onClick={() => props.onUpdateTask(t.id)}
+                  type="button"
+                >
+                  Complete
+                </button>
 
-              <button
-                id="delete"
-                onClick={() => props.onDelete(t.id)}
-                type="button"
-              >
-                Delete
-              </button>
-            </li>
+                <button
+                  id="delete"
+                  onClick={() => props.onDelete(t.id)}
+                  type="button"
+                >
+                  Delete
+                </button>
+              </div>
+            </p>
           ))}
       </ul>
     </div>

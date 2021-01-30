@@ -3,6 +3,12 @@ https://www.getpapercss.com/docs/
 implemented elements on index.html, but ref paper css 
 keywords for client App.css and index.css*/
 
+h2 {
+  margin-bottom: 50px;
+  color: white;
+  text-shadow: 2px 2px 4px teal;
+}
+
 /* wrapper for App */
 .App {
   text-align: center;
@@ -11,22 +17,28 @@ keywords for client App.css and index.css*/
 }
 
 /* listed items */
-li {
+p {
   text-align: center;
   justify-content: center;
-  margin: 0;
-  padding: 20px 20px;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  color: white;
+  font-size: 18px;
+  text-shadow: 2px 2px 4px black;
 }
 
 /* Applies to delete button for listed items*/
 #delete {
-  /*shrinks button width  */
-  width: 20%;
-  display: inline-block;
-  /* curves button shape */
-  border-radius: 15px;
   /*spacing between listed item and delete btn*/
   margin-left: 40px;
+}
+
+#complete {
+  width: 15%;
+}
+
+.list-btns {
+  margin-top: 15px;
 }
 
 /*Applies to all buttons*/
@@ -34,11 +46,14 @@ button {
   /* makes sure button doesn't shift */
   position: relative;
   /*size of font*/
-  font-size: 110%;
+  font-size: 100%;
   font-weight: bold;
   text-align: center;
   justify-content: center;
   /* curves button shape */
   border-radius: 15px;
   margin: 10px 10px;
+  width: 13%;
+  background-color: teal;
+  color: white;
 }

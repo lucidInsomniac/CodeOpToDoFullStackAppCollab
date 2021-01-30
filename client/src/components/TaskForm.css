@@ -1,12 +1,35 @@
+/* To use for font in future  https://dev.to/codingdudecom/everything-about-stroke-text-in-css-561i */
 /*Applies to input field only*/
 input {
   display: inline-block;
   text-align: center;
   margin: 10px 10px;
+  padding: 8px;
+  width: 30%;
+  border-radius: 20px;
 }
 
 .CompletedTasks {
   filter: brightness(50%);
   text-decoration: line-through;
+  color: red;
 }
 
+#submit {
+  font-size: 125%;
+  background-color: teal;
+  color: white;
+}
+
+h1 {
+  margin-bottom: 80px;
+  color: white;
+  text-shadow: 2px 2px 4px teal;
+}
+
+label {
+  font-size: 125%;
+  color: white;
+  font-weight: bold;
+  text-shadow: 2px 2px 4px teal;
+}
