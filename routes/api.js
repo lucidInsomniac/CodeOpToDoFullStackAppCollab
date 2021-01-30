@@ -131,9 +131,9 @@ router.post("/todos/", async (req, res) => {
 //PUT data Update/Replace by ID
 // Checks out on Postman :D
 router.put("/todos/:id", async (req, res) => {
-  //Get id reference from URL
+  //Get id from URL
   let id = req.params.id;
-  // let completed = req.params.completed;
+  let completed = req.params.completed;
 
   //Whenever we access a DB with "async" and "await", we need the "try" and "catch"
   try {
@@ -146,23 +146,20 @@ router.put("/todos/:id", async (req, res) => {
     if (results.data.length === 1) {
       console.log(results.data.length);
 
-      // Create new obj from request body must match column where data is being entered
-      let { Completed } = req.body;
+      // Create new obj from request body
+      let { task } = req.body;
       // Make sure modified task doesn't try to change ID
       //Tells MYSQL to update new task in the table "items" by setting the column
       // called "task" with the matching id from URL
       //Has to be in MYSQL syntax
 
       /*!!!! We need to change this for updateTask!!!   
-
                                   1 - On MYSQL to create new column: 
                                   
                                     ALTER TABLE items ADD Completed BOOLEAN NOT NULL; 
-
                                   2- In VScode, we modify 'false'to 'true' , using this command for the variable "sql":
-
                                     UPDATE items SET Completed = 1 WHERE id = ${id};
-
+                                    
                                   3- To get DB to return data list with string true or false use,
                                       We need to explicity tell it how:
 
@@ -172,7 +169,7 @@ router.put("/todos/:id", async (req, res) => {
 
       sql = `               
         UPDATE items
-        SET Completed = ${Completed}
+        SET Completed = ${!completed}
         WHERE id = ${id}
       `;
 
@@ -180,7 +177,6 @@ router.put("/todos/:id", async (req, res) => {
       await db(sql);
       // Replace old task with modified one
       //Has to be in MYSQL syntax
-      //SELECT id, task, IF(Completed, 'true', 'false') Completed FROM items;
       results = await db(
         "SELECT id, task, IF(Completed, 'true', 'false') Completed FROM items;"
       );
