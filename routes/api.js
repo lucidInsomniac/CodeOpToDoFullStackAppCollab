@@ -103,11 +103,11 @@ router.get("/todos/:id", async (req, res) => {
 //!!!!!!Make sure url matches this, and on Postman, make sure the raw is set to JSON  !!!!!!!!!!
 router.post("/todos/", async (req, res) => {
   // The request's body is available in req.body
-  let { task } = req.body;
+  let { task, completed } = req.body;
   //Has to be in MYSQL syntax
   let sql = `
-    INSERT INTO items (task)
-    VALUES ('${task}')
+    INSERT INTO items (task, completed)
+    VALUES ('${task}', ${completed})
   `;
   //Whenever we access a DB with "async" and "await", we need the "try" and "catch"
   try {
@@ -132,6 +132,8 @@ router.post("/todos/", async (req, res) => {
 router.put("/todos/:id", async (req, res) => {
   //Get id from URL
   let id = req.params.id;
+  let completed = req.params.completed;
+
   //Whenever we access a DB with "async" and "await", we need the "try" and "catch"
   try {
     //Tells MYSQL to select all tasks from table "items" with matching id from URL
@@ -142,12 +144,14 @@ router.put("/todos/:id", async (req, res) => {
     //If DB finds a value of 1 for the array length in our data array
     if (results.data.length === 1) {
       console.log(results.data.length);
+
       // Create new obj from request body
       let { task } = req.body;
       // Make sure modified task doesn't try to change ID
       //Tells MYSQL to update new task in the table "items" by setting the column
       // called "task" with the matching id from URL
       //Has to be in MYSQL syntax
+
 
       /*!!!! We need to change this for updateTask!!!   
 
@@ -160,11 +164,13 @@ router.put("/todos/:id", async (req, res) => {
                                     UPDATE items SET Completed = 1 WHERE id = ${id};
                                     
                                   */
+
       sql = `               
         UPDATE items
-        SET Completed = '${task}'
+        SET Completed = ${!completed}
         WHERE id = ${id}
       `;
+
       //awaiting response on adding the new task to the DB
       await db(sql);
       // Replace old task with modified one

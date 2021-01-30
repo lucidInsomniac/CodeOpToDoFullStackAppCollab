@@ -49,7 +49,7 @@ export default function App() {
     //pass task from Form
     // ******** we still need to add the "completed" boolean variable
     // Define new task set to task
-    let newTask = task;
+    let newTask = { task: task, completed: false };
 
     //Method default is always GET, to change it, you need to
     //explicitly tell REACT to send POST request
@@ -60,7 +60,8 @@ export default function App() {
       },
       //method to convert the "task" key and "newTask" value JS
       //elements into JSON elements from the data entered in the body
-      body: JSON.stringify({ task: newTask })
+
+      body: JSON.stringify(newTask)
     };
     //Shows DB with added entry
     fetch("/api/todos", options)
@@ -79,11 +80,40 @@ export default function App() {
       });
   }
 
-  const updateTask = id => {
+  /**************THIS HAS TO BE CHECKED***************************/
+  function updateTask(id) {
     // update task from database
     // upon success, update tasks
     // upon failure, show error message
-  };
+
+    //Method default is always GET, to change it, you need to
+    //explicitly tell REACT to send PUT request
+    let options = {
+      method: "PUT", //We are updating a task
+      headers: {
+        "Content-Type": "application/json" //Description of file type is a JSON format
+      },
+
+      //elements into JSON elements from the data entered in the body
+      body: JSON.stringify(tasks)
+    };
+
+    fetch(`/api/todos/${id}`, options)
+      // our promise for fetch, instead of using "async", "wait", and "try"
+      .then(response => response.json())
+      //the response returned with actual data
+      .then(tasks => {
+        console.log(tasks);
+        // upon success, update tasks
+        setTasks(tasks);
+      })
+
+      //catches error
+      .catch(err => {
+        // upon failure, show error message
+        console.log("ERROR:", err.message);
+      });
+  }
 
   //DONE and works!
   function deleteTask(id) {
@@ -93,7 +123,7 @@ export default function App() {
       method: "DELETE", //We are removing an existing task from our list of tasks
       //method to convert the "task" key and "tasks" value JS
       //elements into JSON elements from the data entered in the body
-      body: JSON.stringify({ task: tasks })
+      body: JSON.stringify(tasks)
     };
 
     fetch(`/api/todos/${id}`, options)
@@ -115,7 +145,12 @@ export default function App() {
   return (
     <div className="App">
       <TaskForm onSubmit={newTask => addTask(newTask)} />
-      <CurrentTasks tasks={tasks} onDelete={id => deleteTask(id)} />
+
+      <CurrentTasks
+        tasks={tasks}
+        onDelete={id => deleteTask(id)}
+        onUpdateTask={id => updateTask(id)}
+      />
     </div>
   );
 }

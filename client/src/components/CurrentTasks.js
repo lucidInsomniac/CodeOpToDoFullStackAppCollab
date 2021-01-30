@@ -1,6 +1,11 @@
 import React from "react";
 
+/*****ADDED THIS BIT, WAS NOT IMPORTED*******/
+import "./TaskForm.css";
+
 export default function CurrentTasks(props) {
+  console.log("HELLO" + JSON.stringify(props));
+
   return (
     <div className="CurrentTasks">
       <h2>Current Tasks</h2>
@@ -9,11 +14,24 @@ export default function CurrentTasks(props) {
 
         {props.tasks &&
           props.tasks.map(t => (
-            <li className="task" key={t.task}>
+
+            <li
+              key={t.task}
+              className={t.Completed === 1 ? "CompletedTasks" : ""}
+            >
               {t.task}
+
+              <button
+                id="complete"
+                onClick={() => props.onUpdateTask(t.id)}
+                type="button"
+              >
+                Complete
+              </button>
+
               <button
                 id="delete"
-                onClick={e => props.onDelete(t.id)}
+                onClick={() => props.onDelete(t.id)}
                 type="button"
               >
                 Delete
