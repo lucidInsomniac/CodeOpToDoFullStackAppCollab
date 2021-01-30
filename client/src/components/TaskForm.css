@@ -4,9 +4,10 @@ input {
   display: inline-block;
   text-align: center;
   margin: 10px 10px;
-  padding: 8px;
-  width: 30%;
+  padding: 0px;
+  width: 35%;
   border-radius: 20px;
+  height: 30px;
 }
 
 .CompletedTasks {
