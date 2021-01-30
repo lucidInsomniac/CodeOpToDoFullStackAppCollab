@@ -14,6 +14,7 @@ export default function CurrentTasks(props) {
 
         {props.tasks &&
           props.tasks.map(t => (
+
             <li
               key={t.task}
               className={t.Completed === 1 ? "CompletedTasks" : ""}

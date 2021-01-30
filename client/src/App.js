@@ -60,6 +60,7 @@ export default function App() {
       },
       //method to convert the "task" key and "newTask" value JS
       //elements into JSON elements from the data entered in the body
+
       body: JSON.stringify(newTask)
     };
     //Shows DB with added entry

@@ -133,6 +133,7 @@ router.put("/todos/:id", async (req, res) => {
   //Get id from URL
   let id = req.params.id;
   let completed = req.params.completed;
+
   //Whenever we access a DB with "async" and "await", we need the "try" and "catch"
   try {
     //Tells MYSQL to select all tasks from table "items" with matching id from URL
@@ -143,6 +144,14 @@ router.put("/todos/:id", async (req, res) => {
     //If DB finds a value of 1 for the array length in our data array
     if (results.data.length === 1) {
       console.log(results.data.length);
+
+      // Create new obj from request body
+      let { task } = req.body;
+      // Make sure modified task doesn't try to change ID
+      //Tells MYSQL to update new task in the table "items" by setting the column
+      // called "task" with the matching id from URL
+      //Has to be in MYSQL syntax
+
 
       /*!!!! We need to change this for updateTask!!!   
 
