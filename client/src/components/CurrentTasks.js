@@ -9,18 +9,18 @@ export default function CurrentTasks(props) {
   return (
     <div className="CurrentTasks">
       <h2>Current Tasks</h2>
-      <ul>
-        {/* "todo.map()" won't render until "todos"has value */}
+      <div className="list-btns">
+        <ul>
+          {/* "todo.map()" won't render until "todos"has value */}
 
-        {props.tasks &&
-          props.tasks.map(t => (
-            <p
-              key={t.task}
-              className={t.Completed === 1 ? "CompletedTasks" : ""}
-            >
-              {t.task}
+          {props.tasks &&
+            props.tasks.map(t => (
+              <p
+                key={t.task}
+                className={t.Completed === 1 ? "CompletedTasks" : ""}
+              >
+                {t.task}
 
-              <div className="list-btns">
                 <button
                   id="complete"
                   onClick={() => props.onUpdateTask(t.id)}
@@ -36,10 +36,10 @@ export default function CurrentTasks(props) {
                 >
                   Delete
                 </button>
-              </div>
-            </p>
-          ))}
-      </ul>
+              </p>
+            ))}
+        </ul>
+      </div>
     </div>
   );
 }
