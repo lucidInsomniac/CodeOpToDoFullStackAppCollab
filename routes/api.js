@@ -146,7 +146,8 @@ router.put("/todos/:id", async (req, res) => {
     if (results.data.length === 1) {
       console.log(results.data.length);
 
-      // Create new obj from request body
+      // Create new obj from request body, this needs to match the column being modified
+      //in your update
       let { task } = req.body;
       // Make sure modified task doesn't try to change ID
       //Tells MYSQL to update new task in the table "items" by setting the column
@@ -177,9 +178,7 @@ router.put("/todos/:id", async (req, res) => {
       await db(sql);
       // Replace old task with modified one
       //Has to be in MYSQL syntax
-      results = await db(
-        "SELECT id, task, IF(Completed, 'true', 'false') Completed FROM items;"
-      );
+      results = await db("SELECT * FROM items;");
       //And return the full list of items when successful
       res.send(results.data);
     } else {
